@@ -1,0 +1,13 @@
+; LDA ejemplo de cargar en registro 
+SECTION .DATA   ; Sección de datos
+      X:  DB      2
+      Y:  DB	3
+      Z:  DB	2
+      W:  DB	1
+
+
+SECTION .TEXT   ; Sección de código
+	LDA [X]
+      ADD [Y]
+      LDA [Z]
+      SUB [W]

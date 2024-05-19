@@ -1,0 +1,14 @@
+; Ejemplo JMP
+SECTION .DATA   ; Sección de datos
+    X:  DB  1
+    Y:  DB  2
+    Z:  DB  0
+
+SECTION .TEXT   ; Sección de código
+	LDA [X]
+Inicio:
+	JMP Saltar
+	STA [Z]
+Saltar:
+	JMP Inicio
+	HLT

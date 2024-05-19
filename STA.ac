@@ -1,0 +1,12 @@
+; Ejemplo STA
+; Simple programa Z = X + Y
+SECTION .DATA   ; Sección de datos
+    X:  DB  1
+    Y:  DB  2
+    Z:  DB  0
+
+SECTION .TEXT   ; Sección de código
+	LDA [X]
+	ADD [Y]
+	STA [Z]
+	HLT
