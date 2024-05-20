@@ -1,6 +1,6 @@
 # config.py
 
-# Patrones de expresiones regulares
+# Constantes para patrones de expresiones regulares
 DATA_SECTION_PATTERN = r'^SECTION\s*\.DATA\s*$'
 TEXT_SECTION_PATTERN = r'^SECTION\s*\.TEXT\s*$'
 DATA_ENTRY_PATTERN = r'^([a-zA-Z]\w*)(?::)?\s+DB\s+(\d+)\s*$'
