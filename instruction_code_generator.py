@@ -2,6 +2,9 @@
 
 import config  # Importar la configuración
 
+def extract_data_values_hex(data_values):
+    return ' '.join(f'{value:02X}' for value in data_values.values())
+
 def generate_instruction_code(text_instructions, instruction_codes):
     """
     Genera los códigos de instrucción a partir de las instrucciones de texto.
@@ -25,7 +28,7 @@ def generate_instruction_code(text_instructions, instruction_codes):
 
         instruction_code = instruction_codes[instruction] << 5
         if operand is not None:
-            if operand.isdigit():
+            if str(operand).isdigit():
                 instruction_code |= int(operand)
             else:
                 instruction_code |= int(operand)

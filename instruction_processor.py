@@ -48,3 +48,31 @@ def replace_operands(text_instructions, label_addresses, section_data):
                         break
     return text_instructions
 
+
+def read_and_split_sections(lines):
+    section_data = []
+    section_text = []
+    data_values = {}
+    instruction_counter = 0
+    text_instructions = []
+    label_addresses = {}
+    current_section = None
+
+    for line in lines:
+        line = process_line(line)
+        if not line:
+            continue
+        if re.match(config.DATA_SECTION_PATTERN, line, re.IGNORECASE):
+            current_section = section_data
+            continue
+        elif re.match(config.TEXT_SECTION_PATTERN, line, re.IGNORECASE):
+            current_section = section_text
+            continue
+
+        if current_section is section_data:
+            handle_data_section(line, section_data, data_values)
+        elif current_section is section_text:
+            instruction_counter = handle_text_section(line, section_text, instruction_counter, label_addresses, text_instructions)
+
+    text_instructions = replace_operands(text_instructions, label_addresses, section_data)
+    return section_data, section_text, text_instructions, data_values, label_addresses

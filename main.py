@@ -1,48 +1,22 @@
-# main.py
-
+import sys
+import os.path
 import re
-from file_reader import read_file
-from instruction_processor import process_line, handle_data_section, handle_text_section, replace_operands
-from error_handler import check_for_errors
-from instruction_code_generator import generate_instruction_code
 from colorama import Fore, Style
-import config  # Importar la configuración
+import config
+from file_reader import read_file
+from instruction_processor import read_and_split_sections, process_line, handle_data_section, handle_text_section, replace_operands
+from error_handler import check_for_errors
+from instruction_code_generator import generate_instruction_code, extract_data_values_hex  # Corregimos el módulo
 
-def read_and_split_sections(lines):
-    section_data = []
-    section_text = []
-    data_values = {}
-    instruction_counter = 0
-    text_instructions = []
-    label_addresses = {}
-    current_section = None
-
-    for line in lines:
-        line = process_line(line)
-        if not line:
-            continue
-        if re.match(config.DATA_SECTION_PATTERN, line, re.IGNORECASE):
-            current_section = section_data
-            continue
-        elif re.match(config.TEXT_SECTION_PATTERN, line, re.IGNORECASE):
-            current_section = section_text
-            continue
-
-        if current_section is section_data:
-            handle_data_section(line, section_data, data_values)
-        elif current_section is section_text:
-            instruction_counter = handle_text_section(line, section_text, instruction_counter, label_addresses, text_instructions)
-
-    text_instructions = replace_operands(text_instructions, label_addresses, section_data)
-    return section_data, section_text, text_instructions, data_values, label_addresses
-
-def extract_data_values(data_values):
-    return [value for key, value in data_values.items()]
-
-def extract_data_values_hex(data_values):
-    return ' '.join(f'{value:02X}' for value in data_values.values())
+def validate_file_extension(file_path):
+    """Valida que la extensión del archivo sea '.ac'"""
+    _, file_extension = os.path.splitext(file_path)
+    if file_extension != '.ac':
+        print("Error: El archivo debe tener la extensión '.ac'.")
+        sys.exit(1)
 
 def main(file_path):
+    validate_file_extension(file_path)
     lines = read_file(file_path)
     section_data, section_text, text_instructions, data_values, label_addresses = read_and_split_sections(lines)
     
@@ -87,6 +61,7 @@ def main(file_path):
         print(f"Binario: {colored_bits} | Hexadecimal: {instruction_code_hex}")
 
 if __name__ == '__main__':
-    main('LDA.ac')
-
-
+    if len(sys.argv) != 2:
+        print("Uso: python main.py archivo.ac")
+        sys.exit(1)
+    main(sys.argv[1])

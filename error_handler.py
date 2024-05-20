@@ -20,7 +20,7 @@ def check_for_errors(label_addresses, text_instructions, instruction_codes):
         parts = line.split()
         instruction = parts[0]
 
-        if instruction not in instruction_codes:
+        if instruction not in instruction_codes and instruction != "HLT":  # Modificación aquí
             errors.append(f"Error: Instrucción desconocida '{instruction}' en la línea {instruction_counter + 1}.")
             continue
 
