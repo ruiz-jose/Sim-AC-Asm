@@ -1,0 +1,50 @@
+# instruction_processor.py
+
+import re
+import config  # Importar la configuración
+
+def process_line(line):
+    """Elimina espacios en blanco y comentarios de la línea"""
+    line = line.strip()
+    line = re.sub(r';.*', '', line)
+    return line if line else None
+
+def handle_data_section(line, section_data, data_values):
+    """Procesa una línea de la sección de datos"""
+    match = re.match(config.DATA_ENTRY_PATTERN, line)
+    if match:
+        identifier = match.group(1)
+        value = int(match.group(2))
+        data_values[identifier] = value
+        section_data.append((identifier, value))  # Asegúrate de agregar la tupla a section_data
+
+def handle_text_section(line, section_text, instruction_counter, label_addresses, text_instructions):
+    """Procesa una línea de la sección de texto"""
+    match_label = re.match(config.LABEL_PATTERN, line)
+    if match_label:
+        label_name = match_label.group(1)
+        label_addresses[label_name] = instruction_counter
+    else:
+        text_instructions.append((instruction_counter, line.strip()))
+        instruction_counter += 1
+        section_text.append(line)
+    return instruction_counter
+
+def replace_operands(text_instructions, label_addresses, section_data):
+    """Reemplaza los operandos de las instrucciones con los valores correctos"""
+    for i, (instruction_counter, line) in enumerate(text_instructions):
+        instruction_parts = line.strip().split()
+        if len(instruction_parts) > 1:
+            if instruction_parts[0] in ['JMP', 'JZ', 'JC'] and instruction_parts[1] in label_addresses:
+                label_address = label_addresses[instruction_parts[1]]
+                instruction_parts[1] = str(label_address)
+                text_instructions[i] = (instruction_counter, ' '.join(instruction_parts))
+            elif instruction_parts[0] in ['ADD', 'SUB', 'LDA', 'STA']:
+                operand = instruction_parts[1].strip('[]')
+                for index, (identifier, value) in enumerate(section_data):  # Verifica la iteración sobre section_data
+                    if operand == identifier:
+                        instruction_parts[1] = f'[{index}]'
+                        text_instructions[i] = (instruction_counter, ' '.join(instruction_parts))
+                        break
+    return text_instructions
+
