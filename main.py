@@ -55,7 +55,7 @@ def main(file_path):
 
     # Generar y mostrar códigos de instrucción
     instruction_code_list = generate_instruction_code(text_instructions, config.INSTRUCTION_CODES)
-    print("\nCódigos de instrucción:")
+    print("\nValores de la sección .TEXT en binario(Códigos de instrucción y operando) y hexadecimal:")
     for instruction_code_bin, instruction_code_hex in instruction_code_list:
         colored_bits = Fore.BLUE + instruction_code_bin[:3] + Style.RESET_ALL + instruction_code_bin[3:]
         print(f"Binario: {colored_bits} | Hexadecimal: {instruction_code_hex}")
