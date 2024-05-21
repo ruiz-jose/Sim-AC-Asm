@@ -11,6 +11,7 @@ El ensamblador Sim-AC traduce el código escrito en lenguaje ensamblador Sim-AC 
 - `instruction_processor.py`: Procesa las instrucciones del programa, divide en secciones de datos y texto, y maneja etiquetas y operandos.
 - `error_handler.py`: Maneja errores durante el ensamblaje y ejecución.
 - `instruction_code_generator.py`: Genera códigos de instrucción a partir del programa ensamblado.
+- `hex_file_generator.py`: Genera los archivos en formato hexadecimal para las secciones `.data` y `.text` del programa ensamblado.
 - `config.py`: Contiene constantes y patrones de expresiones regulares usados en todo el proyecto.
 
 Sim-AC ayuda a los estudiantes y entusiastas de la informática a experimentar y entender cómo se ejecutan las instrucciones a nivel de máquina, proporcionando una plataforma práctica para aprender ensamblador y arquitectura de computadoras.
@@ -32,7 +33,7 @@ Para utilizar Sim-AC, sigue los pasos siguientes:
 
 3. **Interpretación de resultados:**
    - El programa mostrará la salida correspondiente al ensamblaje y ejecución del programa, incluyendo mensajes de error si los hubiera.
-   - Se generarán dos archivos: uno para la sección `.data` y otro para la sección `.text` en formato hexadecimal. Los archivos se nombrarán como `archivo.data.mem` y `archivo.text.mem` respectivamente.
+   - Se generarán cuatro archivos: dos para la sección `.DATA` y dos para la sección `.TEXT` en formato hexadecimal. Los archivos se nombrarán como `archivo.DATA.logisim.mem`, `archivo.TEXT.logisim.mem`, `archivo.DATA.cverse.mem` y `archivo.TEXT.cverse.mem` respectivamente.
 
 ## Partes Principales del Proyecto
 
@@ -52,10 +53,13 @@ Este módulo se encarga de manejar los errores que pueden surgir durante el ensa
 Este módulo genera los códigos de instrucción correspondientes a partir del programa ensamblado en lenguaje ensamblador Sim-AC.
 
 ### 6. `hex_file_generator.py`
-Este módulo genera los archivos en formato hexadecimal para las secciones `.data` y `.text` del programa ensamblado.
+Este módulo genera los archivos en formato hexadecimal para las secciones `.DATA` y `.TEXT` del programa ensamblado.
 
 ### 7. `config.py`
 Este archivo contiene constantes y patrones de expresiones regulares utilizados en todo el proyecto.
+
+## Extensión Sim-AC para vscode
+Resaltador de sintaxis del ensamblador Sim-AC para Visual Studio Code [Sim-AC-Vscode](https://marketplace.visualstudio.com/items?itemName=vscode-sim-ac.sim-ac).
 
 ## Contribución
 ¡Las contribuciones son bienvenidas! Si encuentras algún error o tienes alguna mejora que sugerir, por favor, crea un "issue" o envía una "pull request" en el repositorio del proyecto.
