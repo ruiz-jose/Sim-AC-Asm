@@ -8,8 +8,29 @@ from instruction_processor import read_and_split_sections, process_line, handle_
 from error_handler import check_for_errors
 from instruction_code_generator import generate_instruction_code, extract_data_values_hex
 from hex_file_generator import generate_hex_files  # Agregamos esta línea
+import glob
 
 def main():
+    # Obtener el nombre del archivo desde los argumentos de la línea de comandos
+    filename = sys.argv[1]
+    
+    # Verificar si el archivo existe en el directorio actual
+    if not os.path.isfile(filename):
+        # Construir la ruta del archivo dentro de la carpeta 'examples'
+        filename = os.path.join('examples', filename)
+        
+        # Verificar si el archivo existe en la carpeta 'examples'
+        if not os.path.isfile(filename):
+            print(f"Error: El archivo '{filename}' no existe.")
+            sys.exit(1)
+        
+        process_file(filename)
+
+
+
+def process_file(file_path):
+    lines = read_file(file_path)
+    
     if len(sys.argv) != 2:
         print("Uso: python main.py archivo.ac")
         sys.exit(1)

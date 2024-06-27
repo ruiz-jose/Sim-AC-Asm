@@ -1,5 +1,13 @@
+import os
 def generate_hex_files(file_name, data_values, instruction_code_list):
-    base_name = file_name.replace('.ac', '')
+    
+    base_name = os.path.basename(file_name).replace('.ac', '')
+    output_dir = "bin"
+    os.makedirs(output_dir, exist_ok=True)  # Crea la carpeta si no existe
+    
+    # Generar el archivo .DATA.logisim.mem para Logisim
+    data_file_name_logisim = os.path.join(output_dir, f"{base_name}.DATA.logisim.mem")
+
 
     # Generar el archivo .DATA.logisim.mem para Logisim
     data_file_name_logisim = f"{base_name}.DATA.logisim.mem"
@@ -16,7 +24,7 @@ def generate_hex_files(file_name, data_values, instruction_code_list):
         text_file.write(f"{hex_instructions}\n")
 
     # Generar el archivo .DATA.cverse.mem para Circuitverse
-    data_file_name_cverse = f"{base_name}.DATA.cverse.mem"
+    data_file_name_cverse = os.path.join(output_dir, f"{base_name}.DATA.cverse.mem")
     with open(data_file_name_cverse, 'w') as data_file:
         hex_values = ' '.join(f"0x{value:02X}" for value in data_values)  # Agrega el prefijo "0x"
         data_file.write(f"{hex_values}\n")
