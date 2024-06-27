@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all clean compile
 
 # Directorio de los archivos fuente y de los ejemplos
 SRC_DIR := src
@@ -14,8 +14,20 @@ AC_FILES := $(wildcard $(EXAMPLES_DIR)/*.ac)
 # Nombres de los archivos sin la ruta y la extensión
 AC_NAMES := $(notdir $(basename $(AC_FILES)))
 
-# Regla all para procesar todos los archivos .ac
-all: $(AC_NAMES)
+# Nombre del ejemplo a compilar (opcional)
+ej ?=
+
+# Regla all para compilar el ejemplo especificado o todos si no se especifica ninguno
+all:
+ifeq ($(ej),)
+	$(MAKE) compile AC_NAMES="$(AC_NAMES)"
+else
+	$(MAKE) compile AC_NAMES="$(ej)"
+endif
+
+# Regla para compilar los ejemplos
+compile: $(AC_NAMES)
+	@echo "Compilación completada."
 
 # Regla para procesar cada archivo .ac
 $(AC_NAMES):

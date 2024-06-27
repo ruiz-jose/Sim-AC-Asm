@@ -13,18 +13,18 @@ import glob
 def main():
     # Obtener el nombre del archivo desde los argumentos de la línea de comandos
     filename = sys.argv[1]
-    
+    process_file(filename)
     # Verificar si el archivo existe en el directorio actual
     if not os.path.isfile(filename):
         # Construir la ruta del archivo dentro de la carpeta 'examples'
         filename = os.path.join('examples', filename)
-        
+        process_file(filename)
         # Verificar si el archivo existe en la carpeta 'examples'
         if not os.path.isfile(filename):
             print(f"Error: El archivo '{filename}' no existe.")
             sys.exit(1)
         
-        process_file(filename)
+        
 
 
 

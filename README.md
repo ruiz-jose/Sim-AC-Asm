@@ -24,12 +24,37 @@ Para utilizar Sim-AC, sigue los pasos siguientes:
    - Colorama (puedes instalarlo con `pip install colorama`)
 
 2. **Ejecución del programa:**
-   - Abre una terminal en la carpeta raíz del proyecto.
-   - Ejecuta el siguiente comando para ensamblar y simular un programa en lenguaje ensamblador Sim-AC:
-     ```
-     python main.py archivo.ac
-     ```
-     Reemplaza `archivo.ac` con el nombre del archivo que contiene el programa en lenguaje ensamblador Sim-AC.
+   - Este proyecto utiliza un [`makefile`] para facilitar la compilación y ejecución de los ejemplos. A continuación, se describen los comandos disponibles.
+   
+   Para compilar todos los ejemplos disponibles en el directorio [`examples`], simplemente ejecuta el siguiente comando en tu terminal:
+
+   ```bash
+   make all
+   ```
+
+   Este comando encontrará y compilará todos los archivos `.ac` en el directorio `examples`.
+
+   **Compilar un ejemplo específico**
+
+   Si deseas compilar un ejemplo específico, puedes hacerlo proporcionando el nombre del ejemplo (sin la extensión `.ac`) como sigue:
+
+   ```bash
+   make ej=NOMBRE_DEL_EJEMPLO
+   ```
+
+   Reemplaza `NOMBRE_DEL_EJEMPLO` con el nombre del archivo que deseas compilar. Por ejemplo, si el archivo se llama `example1.ac`, deberías ejecutar:
+
+   ```bash
+   make ej=example1
+   ```
+
+   **Limpiar el directorio de compilación**
+
+   Para limpiar el directorio de compilación y eliminar todos los archivos generados, puedes usar el comando:
+
+   ```bash
+   make clean
+   ```
 
 3. **Interpretación de resultados:**
    - El programa mostrará la salida correspondiente al ensamblaje y ejecución del programa, incluyendo mensajes de error si los hubiera.
