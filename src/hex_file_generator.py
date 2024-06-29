@@ -4,6 +4,9 @@ def generate_hex_files(file_name, data_values, instruction_code_list):
     base_name = os.path.basename(file_name).replace('.ac', '')
     output_dir = "bin"
     os.makedirs(output_dir, exist_ok=True)  # Crea la carpeta si no existe
+
+    # Ejemplo de cómo modificar el nombre del archivo segun la arquitectura
+    base_name =  base_name + "_harvard" 
     
     # Generar el archivo .DATA.logisim.mem para Logisim
     data_file_name_logisim = os.path.join(output_dir, f"{base_name}.DATA.logisim.mem")
