@@ -47,6 +47,13 @@ Para utilizar Sim-AC, sigue los pasos siguientes:
    ```bash
    make ej=example1
    ```
+   **Ejecución sin Makefile**
+   Para ejecutar un ejemplo específico sin utilizar el `makefile`, navega al directorio del proyecto en tu terminal y ejecuta el siguiente comando:
+
+   
+   ```bash
+   python3 src/main.py examples/NOMBRE_DEL_EJEMPLO.ac
+   ```
 
    **Limpiar el directorio de compilación**
 
