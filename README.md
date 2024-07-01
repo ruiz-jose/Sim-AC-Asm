@@ -70,6 +70,8 @@ Para utilizar Sim-AC, sigue los pasos siguientes:
 
    ![logisim](assets/animacionlogisim.gif)  
 
+   ![cverse](assets/animacioncverse.gif)  
+
 ## Partes Principales del Proyecto
 
 ### 1. `main.py`
