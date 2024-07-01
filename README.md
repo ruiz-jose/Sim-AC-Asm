@@ -66,6 +66,9 @@ Para utilizar Sim-AC, sigue los pasos siguientes:
 3. **Interpretación de resultados:**
    - El programa mostrará la salida correspondiente al ensamblaje y ejecución del programa, incluyendo mensajes de error si los hubiera.
    - Se generarán cuatro archivos: dos para la sección `.DATA` y dos para la sección `.TEXT` en formato hexadecimal. Los archivos se nombrarán como `archivo.DATA.logisim.mem`, `archivo.TEXT.logisim.mem`, `archivo.DATA.cverse.mem` y `archivo.TEXT.cverse.mem` respectivamente.
+  
+
+   ![logisim](assets/animacionlogisim.gif)  
 
 ## Partes Principales del Proyecto
 
