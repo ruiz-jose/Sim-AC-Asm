@@ -1,5 +1,5 @@
 import os
-def generate_hex_files(file_name, data_values, instruction_code_list):
+def generate_hex_files(file_name, data_values, instruction_code_list_harvard, instruction_code_list_neumann):
     
     base_name = os.path.basename(file_name).replace('.ac', '')
     output_dir = "bin"
@@ -11,7 +11,7 @@ def generate_hex_files(file_name, data_values, instruction_code_list):
     with open(file_name_logisim, 'w') as program_file:
         program_file.write('v2.0 raw\n')  # Agrega el encabezado necesario para Logisim
         # Unir instrucciones y valores de datos en una sola lista
-        hex_instructions = ' '.join(instruction_code_hex for _, instruction_code_hex in instruction_code_list)
+        hex_instructions = ' '.join(instruction_code_hex for _, instruction_code_hex in instruction_code_list_neumann)
         hex_values = ' '.join(f"{value:02X}" for value in data_values)
         combined_hex = f"{hex_instructions} {hex_values}"
         # Insertar un salto de línea cada 8 bytes en la lista combinada
@@ -30,7 +30,7 @@ def generate_hex_files(file_name, data_values, instruction_code_list):
     text_file_name_logisim = os.path.join(output_dir, f"{base_name}.TEXT.harvard.logisim.mem")
     with open(text_file_name_logisim, 'w') as text_file:
         text_file.write('v2.0 raw\n')  # Agrega el encabezado necesario para Logisim
-        hex_instructions = ' '.join(instruction_code_hex for _, instruction_code_hex in instruction_code_list)
+        hex_instructions = ' '.join(instruction_code_hex for _, instruction_code_hex in instruction_code_list_harvard)
         text_file.write(f"{hex_instructions}\n")
 
     # Generar el archivo .DATA.harvard.cverse.mem para Circuitverse
@@ -42,7 +42,7 @@ def generate_hex_files(file_name, data_values, instruction_code_list):
     # Generar el archivo .TEXT.harvard.cverse.mem para Circuitverse
     text_file_name_cverse = os.path.join(output_dir, f"{base_name}.TEXT.harvard.cverse.mem")
     with open(text_file_name_cverse, 'w') as text_file:
-        hex_instructions = ' '.join(f"0x{instruction_code_hex}" for _, instruction_code_hex in instruction_code_list)  # Agrega el prefijo "0x"
+        hex_instructions = ' '.join(f"0x{instruction_code_hex}" for _, instruction_code_hex in instruction_code_list_harvard)  # Agrega el prefijo "0x"
         text_file.write(f"{hex_instructions}\n")
 
     print(f"Archivos generados para Logisim: {data_file_name_logisim}, {text_file_name_logisim}")

@@ -4,7 +4,7 @@ import re
 from colorama import Fore, Style
 import config
 from file_reader import read_file
-from instruction_processor import read_and_split_sections, process_line, handle_data_section, handle_text_section, replace_operands
+from instruction_processor import read_and_split_sections, process_line, handle_data_section, handle_text_section, replace_operands_harvard, replace_operands_neumann
 from error_handler import check_for_errors
 from instruction_code_generator import generate_instruction_code, extract_data_values_hex
 from hex_file_generator import generate_hex_files  # Agregamos esta línea
@@ -43,10 +43,10 @@ def process_file(file_path):
 
     lines = read_file(file_path)
 
-    data, text, text_instructions, data_values, label_addresses = read_and_split_sections(lines)
+    data, text, text_instructions_harvard, text_instructions_neumann, data_values, label_addresses = read_and_split_sections(lines)
 
     # Verificar errores
-    errors = check_for_errors(label_addresses, text_instructions, config.INSTRUCTION_CODES)
+    errors = check_for_errors(label_addresses, text_instructions_harvard , config.INSTRUCTION_CODES)
     if errors:
         for error in errors:
             print(error)
@@ -54,6 +54,7 @@ def process_file(file_path):
 
     # Mostrar valores de la sección .DATA
     max_data_label_length = max(len(label) for label, _ in data) if data else 0
+    print("Arquitectura de Harvard:")
     print("Valores de la sección .DATA:")
     for index, (label, value) in enumerate(data):
         print(f"{label.ljust(max_data_label_length)} | {index}: {value}")
@@ -61,7 +62,7 @@ def process_file(file_path):
     # Mostrar instrucciones de la sección .TEXT
     max_text_label_length = max(len(label) for label in label_addresses.keys()) if label_addresses else 0
     print("\nInstrucciones de la sección .TEXT:")
-    for instruction_counter, instruction in text_instructions:
+    for instruction_counter, instruction in text_instructions_harvard:
         label = next((lbl for lbl, addr in label_addresses.items() if addr == instruction_counter), "")
         print(f"{label.ljust(max_text_label_length)} | {instruction_counter}: {instruction}")
 
@@ -76,14 +77,15 @@ def process_file(file_path):
     print(hex_values)
 
     # Generar y mostrar códigos de instrucción
-    instruction_code_list = generate_instruction_code(text_instructions, config.INSTRUCTION_CODES)
+    instruction_code_list_harvard = generate_instruction_code(text_instructions_harvard, config.INSTRUCTION_CODES)
+    instruction_code_list_neumann = generate_instruction_code(text_instructions_neumann, config.INSTRUCTION_CODES)
     print("\nValores de la sección .TEXT en binario(Códigos de instrucción y operando) y hexadecimal:")
-    for instruction_code_bin, instruction_code_hex in instruction_code_list:
+    for instruction_code_bin, instruction_code_hex in instruction_code_list_harvard:
         colored_bits = Fore.BLUE + instruction_code_bin[:3] + Style.RESET_ALL + instruction_code_bin[3:]
         print(f"Binario: {colored_bits} | Hexadecimal: {instruction_code_hex}")
 
     # Generar archivos en hexadecimal
-    generate_hex_files(file_path, list(data_values.values()), instruction_code_list)
+    generate_hex_files(file_path, list(data_values.values()), instruction_code_list_harvard, instruction_code_list_neumann)
 
 if __name__ == "__main__":
     main()
