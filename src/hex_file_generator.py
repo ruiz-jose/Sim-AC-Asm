@@ -1,9 +1,31 @@
 import os
-def generate_hex_files(file_name, data_values, instruction_code_list_harvard, instruction_code_list_neumann):
+def generate_hex_files(file_name, data_values, instruction_code_list_harvard, instruction_code_list_neumann, text_instructions_harvard):
     
     base_name = os.path.basename(file_name).replace('.ac', '')
     output_dir = "bin"
     os.makedirs(output_dir, exist_ok=True)  # Crea la carpeta si no existe
+
+
+# Generar el archivo .DATA.harvard.verilog para Verilog
+    data_file_name_verilog = os.path.join(output_dir, f"{base_name}.DATA.harvard.verilog")
+    with open(data_file_name_verilog, 'w') as data_file:
+        # Copiar los valores de datos como comentarios
+        for value in data_values:
+            data_file.write(f"// {value:02X}\n")
+        # Escribir los valores de datos en hexadecimal, uno por línea
+        for value in data_values:
+            data_file.write(f"{value:02X}\n")
+
+    # Generar el archivo .TEXT.harvard.verilog para Verilog
+    text_file_name_verilog = os.path.join(output_dir, f"{base_name}.TEXT.harvard.verilog")
+    with open(text_file_name_verilog, 'w') as text_file:
+        # Copiar las instrucciones en ensamblador como comentarios
+        # Asegúrate de que assembly_instructions_harvard esté definida y contenga las instrucciones en ensamblador
+        for assembly_instruction, (_, instruction_code_hex) in zip(text_instructions_harvard, instruction_code_list_harvard):
+            text_file.write(f"// {assembly_instruction}\n")
+        # Escribir las instrucciones en hexadecimal, una por línea
+        for _, instruction_code_hex in instruction_code_list_harvard:
+            text_file.write(f"{instruction_code_hex}\n")
 
 
     # Generar el archivo .neumann.logisim.mem para Logisim

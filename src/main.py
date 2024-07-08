@@ -85,7 +85,7 @@ def process_file(file_path):
         print(f"Binario: {colored_bits} | Hexadecimal: {instruction_code_hex}")
 
     # Generar archivos en hexadecimal
-    generate_hex_files(file_path, list(data_values.values()), instruction_code_list_harvard, instruction_code_list_neumann)
+    generate_hex_files(file_path, list(data_values.values()), instruction_code_list_harvard, instruction_code_list_neumann, text_instructions_harvard)
 
 if __name__ == "__main__":
     main()
